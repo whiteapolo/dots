@@ -1,0 +1,74 @@
+autoload -U colors && colors
+
+#############
+# zsh promt #
+#############
+PROMPT="%B%F{green}{}%f%b %B%F{magenta}%~%f%b "
+
+########
+# path #
+########
+
+# add .script to path
+path+=~/.scripts
+# zsh history 
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt appendhistory
+
+#########
+# alias #
+#########
+alias vim='nvim'
+alias ls='ls --color=always --group-directories-first'
+alias grep='grep --color=always'
+alias image='sxiv'
+alias pdf='zathura'
+alias ..='cd ..'
+alias vimrc='vim ~/.config/nvim/init.vim'
+alias classroom='surf https://classroom.google.com/'
+alias qemu='qemu-system-x86_64'
+alias weather='curl wttr.in'
+alias calculator='bc'
+alias pdf='evince'
+alias image='xviewer'
+alias kittyrc='nvim .config/kitty/kitty.conf'
+alias tmuxrc='nvim .config/tmux/tmux.conf'
+alias :Wq='exit'
+alias :wq='exit'
+alias :WQ='exit'
+alias tmux='tmux -u'
+
+
+###########
+# vi Mode #
+###########
+bindkey -v
+
+export KEYTIMEOUT=1
+bindkey -v '^?' backward-delete-char
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q'
+preexec() { echo -ne '\e[5 q' ;} 
+
+
+# find hidden files with fzf
+export FZF_DEFAULT_COMMAND='find .'
+
+# auto seggestions
+source	/home/white/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# syntax highlighting
+source /home/white/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
