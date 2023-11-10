@@ -1,0 +1,155 @@
+
+
+
+/*  whisker menu  */
+#whiskermenu-button{
+  border-color: none;
+  color: #1c2021;
+  background-color: #EBDBB2;
+	border-radius: 0px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+
+
+
+
+/*  workspaces  */
+#xfce-panel-toggle-button:checked{
+	color: #1c2021;
+  /* border-bottom: 2px solid #FABD2F; */
+  background-color: #EBDBB2;
+  font-weight: bold;
+}
+#xfce-panel-toggle-button{
+	background: none;
+	color: #EBDBB2;
+	border-radius: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0px;
+	margin-right: 4px;
+  font-weight: bold;
+}
+
+
+
+
+
+/*  tabs  */
+.xfce4-panel .tasklist .toggle:checked {
+  /*background-image: url("file:///home/white/archive/tab.jpg");*/
+  border-bottom: 2px solid #EBDBB2;
+	border-radius: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+ .xfce4-panel .tasklist .toggle {
+	background-color: rgb(42, 42, 42);
+	border-radius: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px;	
+}
+
+
+
+
+
+/*  battery  */
+#genmon-8 label{
+	background-color: none;
+  color: #8EC07C;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 3px;
+  border-bottom: 2px solid #8EC07C;
+}
+
+
+
+
+
+/*  keyboard layouts  */
+#xkb-5 button{
+	background-color: none;
+	border-radius: 0px;
+  color: #b8bb24;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-right: 3px;
+  border-bottom: 2px solid #b8bb24;
+  font-weight: bold;
+  border-left: none;
+}
+#genmon-9 label{
+	border-radius: 0px;
+  color: #b8bb24;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 6px;
+  border-bottom: 2px solid #b8bb24;
+  border-right: none;
+}
+
+
+
+
+/*  memory  */
+#genmon-4 label{
+	background-color: none;
+  color: #D3869B;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px;
+	padding: 3px;
+  border-bottom: 2px solid #D3869B;
+}
+
+
+
+
+/*  clock  */
+#clock-13 button{
+	background-color: none;
+  color: #FB4934;
+	border-radius: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px;
+	padding: 3px;
+  border-bottom: 2px solid #FB4934;
+}
+#clock-2 button{
+	background-color: none;
+  color: #e49b0e;
+	border-radius: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 3px;
+	margin-right: 3px;
+	padding: 3px;
+  border-bottom: 2px solid #e49b0e;
+}
+
+
+
+
+/* thunar */
+.thunar .standard-view .view { background-color: #1c2021; }/* main view */
+.thunar grid paned grid  { background-color: #252525;}/* status bar */
+.thunar toolbar, .thunar toolbar entry  { background-color: #252525; }/* toolbar */
+
+.thunar .view { background-color: #252525;}
+.thunar .view:selected { background-color: #40403f; color: #f3f3f3; }
+.thunar > grid > toolbar * { -gtk-icon-transform: scale(0.6); }
+
+
