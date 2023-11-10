@@ -7,7 +7,7 @@
 "                             
                              
 """""""""""""""""""""""""""""""
-"						PLUGINS					  "
+"           PLUGINS					  "
 """""""""""""""""""""""""""""""
 
 call plug#begin('~/.local/share/nvim/Plugged')
@@ -20,7 +20,7 @@ call plug#end()
 
 
 """""""""""""""""""""""""""""""
-"						COLORS					  "
+"           COLORS					  "
 """""""""""""""""""""""""""""""
 
 "highlight LineNr cterm=NONE ctermbg=235 ctermfg=166
@@ -31,7 +31,7 @@ highlight CursorLineNr cterm=NONE ctermbg=235 ctermfg=166
 
 
 """""""""""""""""""""""""""""""
-"						FUNCTIONS					"
+"          FUNCTIONS					"
 """""""""""""""""""""""""""""""
 
 function! HasPaste()
@@ -63,7 +63,7 @@ function! InsertTabWrapper()
 endfunction
 
 """""""""""""""""""""""""""""""
-"						MAPPING						"
+"          MAPPING						"
 """""""""""""""""""""""""""""""
 
 " Scroll 3 lines and zz
@@ -101,7 +101,7 @@ inoremap <s-tab> <c-n>
 
 
 """""""""""""""""""""""""""""""
-"						BORING						"
+"           BORING						"
 """""""""""""""""""""""""""""""
 syntax on
 set background=light
