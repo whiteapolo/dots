@@ -1,17 +1,54 @@
 autoload -U colors && colors
 
+
+# colored man pages 
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+# colored man pages 
+
+# to theme the tty
+# if [ "$TERM" = "linux" ]; then
+#     echo -en "\e]P0202020" # black
+#     echo -en "\e]P8cc241d" # darkgrey
+#     echo -en "\e]P198971a" # darkred
+#     echo -en "\e]P9db930d" # red
+#     echo -en "\e]P48787AF" # darkblue
+#     echo -en "\e]PC7373C9" # blue
+#     echo -en "\e]P287AF5F" # darkgreen
+#     echo -en "\e]PA98E34D" # green
+#     echo -en "\e]P5BD53A5" # darkmagenta
+#     echo -en "\e]PDD633B2" # magenta
+#     echo -en "\e]P65FAFAF" # darkcyan
+#     echo -en "\e]PE44C9C9" # cyan
+#     echo -en "\e]P3D7AF87" # brown
+#     echo -en "\e]PBFFD75F" # yellow
+#     echo -en "\e]P7E5E5E5" # lightgrey
+#     echo -en "\e]PFFFFFFF" # white
+#     clear #for background artifacting
+# fi
+
 #############
 # zsh promt #
 #############
+
+# PROMPT="%B%F{red}[%f%b%B%F{yellow}white%f%b%B%F{green}@%f%b%B%F{blue}black %f%b%B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
 
 PROMPT="%B%F{green}{}%f%b %B%F{magenta}%~%f%b "
 
 ########
 # path #
 ########
-
-# add .script to path
 path+=~/.scripts
+path+=~/.config/emacs/bin
+path+=~/.cargo/env
+
+
+
 # zsh history 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
@@ -21,25 +58,60 @@ setopt appendhistory
 #########
 # alias #
 #########
+alias mv='mv -i'
+alias cp='cp -i'
+alias rm='rm -i'
+alias ln='ln -i'
 alias vim='nvim'
 alias ls='ls --color=always --group-directories-first'
 alias grep='grep --color=always'
 alias image='sxiv'
 alias pdf='zathura'
-alias ..='cd ..'
 alias vimrc='vim ~/.config/nvim/init.vim'
-alias classroom='surf https://classroom.google.com/'
-alias qemu='qemu-system-x86_64'
-alias weather='curl wttr.in'
-alias calculator='bc'
-alias pdf='evince'
-alias image='xviewer'
 alias kittyrc='nvim .config/kitty/kitty.conf'
 alias tmuxrc='nvim .config/tmux/tmux.conf'
-alias :Wq='exit'
-alias :wq='exit'
-alias :WQ='exit'
 alias tmux='tmux -u'
+alias swap='cd ~/.local/state/nvim/swap'
+alias ..='cd ..'
+alias ....='cd ../..'
+alias ......='cd ../../..'
+alias sl='ls'
+alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
+alias l='ls -lh --color=always --group-directories-first'
+alias ll='ls -lh --color=always --group-directories-first'
+alias du='du -h'
+alias startsql='sudo systemctl start mysql'
+alias stopsql='sudo systemctl stop mysql'
+alias statussql='systemctl status mysql'
+
+
+
+#############
+# FUNCTIONS #
+#############
+function ex(){
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.gz)  tar xzf $1   ;;
+      *.rar)     unrar x $1   ;;
+      *.gz)      gunzup $1    ;;
+      *.tar)     tar xf $1    ;;
+      *.zip)     unzip $1     ;;
+      *.tar.xz)  tar xf $1    ;;
+      *)   echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echi "'$1' is no a valid file"
+  fi
+}
+
+function mpad() {
+  command mousepad "$@" &
+}
+
+function text() {
+  command gnome-text-editor "$@" &
+}
 
 
 ###########
@@ -64,9 +136,6 @@ zle -N zle-line-init
 echo -ne '\e[5 q'
 preexec() { echo -ne '\e[5 q' ;} 
 
-
-# find hidden files with fzf
-export FZF_DEFAULT_COMMAND='find .'
 
 # auto seggestions
 source	/home/white/.config/zsh-autosuggestions/zsh-autosuggestions.zsh
