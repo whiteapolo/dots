@@ -1,0 +1,18 @@
+. "$HOME/.cargo/env"
+ZDOTDIR=~/.config/zsh
+
+export HISTFILE=~/.config/zsh/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+# colored man pages
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+export FZF_DEFAULT_COMMAND='find ~/. \( -name .rustup -o -name .git -o -name .npm -o -name no_search -o -name .cargo -o -name yarn -o -name emacs -o -name .m2 -o -name BraveSoftware -o -name thorium -o -name .icons -o -name .cache -o -name .var -o -name .wine -o -name .themes -o -name .surf -o -name .local -o -name .mozilla -o -name walls -o -name wallpapers -o -name GIMP -o -name os-tutorial -o -name costimazation -o -name zsh-autosuggestions -o -name coc -o -name libreoffice -o -name zsh-syntax-highlighting -o -name .zoom -o -name workbench -o -name .virtualBox -o -name content_shell \) -prune -o -print'
+
