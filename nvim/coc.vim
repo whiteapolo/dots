@@ -9,12 +9,6 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm(): "\<C-g>u\<CR
 inoremap <silent><expr> <c-@> coc#refresh()
 
 " Look and feel
-hi! Pmenu ctermfg=0 ctermbg=4
-hi! PmenuSel ctermfg=4 ctermbg=0
-hi! CocPumMenu ctermfg=0 ctermbg=4
-hi! CocMenuSel ctermfg=0 ctermbg=12
-hi! CocPumSearch ctermfg=NONE ctermbg=NONE cterm=bold
-
 
 let b:coc_diagnostic_disable=1
 au BufNewFile,BufRead * let b:coc_diagnostic_disable=1
@@ -34,4 +28,3 @@ endfunction
 "         return "\<c-p>"
 "     endif
 " endfunction
-

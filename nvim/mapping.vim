@@ -12,7 +12,6 @@ nnoremap S :%s//g<Left><Left>
 " nnoremap <S-c> <Nop>
 nnoremap <space>t :syntax keyword cType
 
-
 " Clear all highlights after search
 nnoremap <space>c :noh<CR>
 nnoremap <ESC> :noh<CR>:<CR>
@@ -45,9 +44,11 @@ nnoremap <A-Enter> :Term<CR>
 nnoremap <space><space> :call CocAction('diagnosticToggle')<CR>
 
 nnoremap <TAB>  <C-w>
-nnoremap <C-a> <C-w>
 inoremap <C-a> <ESC><C-w>
 tnoremap <C-a> <C-\><C-n><C-w>
+
+nnoremap <C-left> <C-w><left>
+nnoremap <C-right> <C-w><right>
 
 " switching between tabs
 nnoremap <S-TAB> :tabn<CR>
@@ -57,13 +58,18 @@ nnoremap <S-TAB> :tabn<CR>
 nnoremap <space>fb :Telescope buffers<CR>
 nnoremap <space>ff :Telescope file_browser path=%:p:h select_buffer=true <CR>
 nnoremap <space>fm :Telescope man_pages<CR>
+nnoremap <space>ft :NERDTree<CR>
 
 " nnoremap <space>fb :Buffers<CR>
 " nnoremap <space>ff :Files<CR>
 " nnoremap <space>fm :Telescope man_pages<CR>
 
-nnoremap <enter> :!
-nnoremap <S-enter> <ESC>
+nnoremap <S-enter> :!
+nnoremap <enter> <Nop>
+nnoremap <S-l> <Nop>
+nnoremap <S-h> <Nop>
+nnoremap <S-j> <Nop>
+nnoremap <S-k> <Nop>
 
 nnoremap <C-A-right> :bn<CR>
 nnoremap <C-A-left> :bp<CR>
