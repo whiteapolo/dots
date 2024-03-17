@@ -1,0 +1,10 @@
+map R rotate
+map = zoom in
+map - zoom out
+
+set scroll-step 130
+
+set recolor-lightcolor \#202020
+set recolor-keephue
+set default-bg \#000000
+set page-padding 5
