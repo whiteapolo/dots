@@ -33,7 +33,11 @@ let g:fzf_vim.preview_window = []
 if exists("g:neovide")
 	let g:neovide_transparency = 0.85
 	let g:neovide_scroll_animation_length = 0.10
-  	set guifont=JetBrains\ Mono\ NL:h16
+  	set guifont=JetBrains\ Mono\ NL:h10 "17
   	set background=dark
-  	colorscheme gruvbox
+	let g:neovide_padding_top = 20
+	let g:neovide_padding_bottom = 20
+	let g:neovide_padding_right = 20
+	let g:neovide_padding_left = 20
+	colorscheme gruvbox
 endif

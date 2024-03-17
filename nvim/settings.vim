@@ -21,7 +21,7 @@ set noexpandtab
 " autocmd BufWritePre * %s/\s\+$//e
 
 " At least 7 lines padding in scrolling
-set so=7
+" set so=3
 
 " Always show current position
 set ruler
