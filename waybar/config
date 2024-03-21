@@ -1,0 +1,41 @@
+{
+    "height": 30, // Waybar height (to be removed for auto height)
+    "spacing": 4, // Gaps between modules (4px)
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["battery", "pulseaudio", "clock", "tray"],
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "hyprland/window": {
+      "tooltip": false
+    },
+    "battery": {
+        	"states": {
+            		"warning": 30,
+            		"critical": 15
+        	},
+        	"format": " {capacity}%  ",
+        	"format-charging": " {capacity}%",
+        	"format-plugged": "{capacity}%",
+        	"format-alt": "{time} ",
+        	"format-full": " {capacity}%",
+        	"format-icons": ["", "", ""]
+     },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+				"format": "<span color='#ffffff'>{:%d/%m/%Y %H:%M}</span>",
+				"on-click": "thunderbird"
+    },
+}
