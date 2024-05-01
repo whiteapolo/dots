@@ -7,6 +7,7 @@ nnoremap <c-k> 5<C-u>zz
 
 " Replace all aliases to S.
 nnoremap S :%s//g<Left><Left>
+vnoremap S :s//g<Left><Left>
 
 " Add a syntax highlight rule
 " nnoremap <S-c> <Nop>
@@ -14,7 +15,7 @@ nnoremap <space>t :syntax keyword cType
 
 " Clear all highlights after search
 nnoremap <space>c :noh<CR>
-nnoremap <ESC> :noh<CR>:<CR>
+nnoremap <ESC> :noh<CR><C-l><CR>
 " Toggle relative number
 nnoremap <space>r :call ToggleRelativeNumbers()<CR>
 
@@ -73,3 +74,14 @@ nnoremap <S-k> <Nop>
 
 nnoremap <C-A-right> :bn<CR>
 nnoremap <C-A-left> :bp<CR>
+
+" cnoremap <expr><backspace> PathComplete()
+
+" fun PathComplete()
+" 	let char = getline('.')[col('.') - 1]
+" 	if char == '/'
+" 		getline('.')[col('.') - 1] = 3
+" 	else
+" 		getline('.')[col('.') - 1] = 3
+" 	endif
+" endfun

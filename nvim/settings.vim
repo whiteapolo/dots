@@ -1,7 +1,6 @@
+set ignorecase
 syntax on
 set background=light
-" set relativenumber
-" set number
 set mouse=a
 set cursorline
 set splitbelow splitright
@@ -11,6 +10,8 @@ filetype plugin indent on
 set suffixes^=/
 
 autocmd BufEnter * silent! :lcd%:p:h
+" syntax highliting to st.conf
+autocmd BufEnter st.conf silent! :set filetype=kitty.conf
 
 let g:netrw_banner=0
 
@@ -21,7 +22,7 @@ set noexpandtab
 " autocmd BufWritePre * %s/\s\+$//e
 
 " At least 7 lines padding in scrolling
-" set so=3
+set so=7
 
 " Always show current position
 set ruler
