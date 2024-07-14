@@ -5,8 +5,6 @@
 "   \_/ |_|_| |_| |_|_|  \___|
 "
 
-" plugins
-""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'ap/vim-css-color'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
