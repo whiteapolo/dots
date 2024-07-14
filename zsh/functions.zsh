@@ -1,0 +1,161 @@
+function init_aliases()
+{
+	alias mv='mv -i'
+	alias cp='cp'
+	alias rm='rm -i'
+	alias ln='ln -i'
+	alias vim='nvim'
+	alias ls='ls --color=always --group-directories-first'
+	alias grep='grep --color=always'
+	alias vimrc='cd ~/.config/nvim/'
+	alias kittyrc='nvim .config/kitty/kitty.conf'
+	alias tmuxrc='nvim .config/tmux/tmux.conf'
+	alias tmux='tmux -u'
+	alias swap='cd ~/.local/state/nvim/swap'
+	alias image='sxiv'
+	alias pdf='zathura'
+	alias ..='cd ..'
+	alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
+	alias l='ls -lha --color=always --group-directories-first'
+	alias ll='ls -lha --color=always --group-directories-first'
+	alias connectgreen='ssh white@192.168.1.233'
+	alias du='du -h'
+	alias startsql='sudo systemctl start mysql'
+	alias stopsql='sudo systemctl stop mysql'
+	alias statussql='systemctl status mysql'
+	alias se='grep -rIn'
+	alias fk='fg'
+	alias batcat='batcat --theme=base16'
+	alias zshrc='cd ~/.config/zsh'
+	alias q='exit'
+	alias mpad='mousepad'
+	alias less='less -r'
+	alias v='nvim'
+	alias bk='setsid'
+	alias diff='colordiff'
+	alias ase='apt search'
+	alias aup='apt update'
+	alias m='./build.sh'
+	alias e='./exe'
+	alias me='m && e'
+	alias cat='cat-can'
+	alias pwd='pwd-can'
+	alias fl='nnn -de'
+	alias n='nnn -de'
+	alias toggle-bluetooth='rfkill toggle bluetooth'
+	alias resetxbindkeys='killall -HUP xbindkeys; xbindkeys'
+}
+
+function ex()
+{
+	if [ -f $1 ] ; then
+	case $1 in
+		*.tar.gz)  tar xzf $1   ;;
+		*.rar)     unrar x $1   ;;
+		*.gz)      gunzup $1    ;;
+		*.tar)     tar xf $1    ;;
+		*.zip)     unzip $1     ;;
+		*.tar.xz)  tar xf $1    ;;
+		*)   echo "'$1' cannot be extracted via ex()" ;;
+		esac
+	else
+	echo "'$1' is no a valid file"
+	fi
+}
+
+function tty_colors()
+{
+    echo -en "\e]P0202020" # black
+    echo -en "\e]P8cc241d" # darkgrey
+    echo -en "\e]P198971a" # darkred
+    echo -en "\e]P9db930d" # red
+    echo -en "\e]P48787AF" # darkblue
+    echo -en "\e]PC7373C9" # blue
+    echo -en "\e]P287AF5F" # darkgreen
+    echo -en "\e]PA98E34D" # green
+    echo -en "\e]P5BD53A5" # darkmagenta
+    echo -en "\e]PDD633B2" # magenta
+    echo -en "\e]P65FAFAF" # darkcyan
+    echo -en "\e]PE44C9C9" # cyan
+    echo -en "\e]P3D7AF87" # brown
+    echo -en "\e]PBFFD75F" # yellow
+    echo -en "\e]P7E5E5E5" # lightgrey
+    echo -en "\e]PFFFFFFF" # white
+    clear #for background artifacting
+}
+
+function init_prompt()
+{
+	PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+	# PROMPT="%B%F{green}%n%f%b%B%F{green}@%f%b%B%F{green}%m%f%b:%B%F{blue}%~%f%b$ "
+	#PROMPT='%B%F{green}{}%f%b %B%F{magenta}%~%f%b '
+	# PROMPT='%B%F{magenta}%~%f%b%B%F{green} %b❯ %f'
+	PROMPT='%F{magenta}%~%f%F{green} $ %f'
+}
+
+function set_cursor_beam()
+{
+	echo -ne '\e[5 q'
+}
+
+function set_cursor_block()
+{
+	echo -ne '\e[1 q'
+}
+
+function init_vi_mode()
+{
+	bindkey -v
+	export KEYTIMEOUT=1
+	bindkey -v '^?' backward-delete-char
+	function zle-keymap-select () {
+		case $KEYMAP in
+			vicmd) set_cursor_block;;
+			viins|main) set_cursor_beam;;
+		esac
+	}
+	zle -N zle-keymap-select
+	zle-line-init() { zle -K viins }
+	zle -N zle-line-init
+	preexec() { set_cursor_beam ;}
+}
+
+function add_path()
+{
+	path+=$1
+}
+
+function init_paths()
+{
+	add_path ~/archive/.scripts
+	add_path /usr/local/go/bin
+	add_path ~/.cargo/env
+	add_path ~/.cargo/bin
+}
+
+function zsh_settings()
+{
+	autoload -U colors && colors
+	autoload -U compinit
+	zstyle ':completion:*' menu select
+	setopt appendhistory
+	setopt autocd
+	zmodload zsh/complist
+	compinit
+}
+
+function init_env()
+{
+	export EDITOR='nvim'
+	export HISTFILE=~/.config/zsh/.zsh_history
+	export HISTSIZE=10000
+	export SAVEHIST=10000
+	export PKG_CONFIG_PATH=/var/lib/flatpak/runtime/org.freedesktop.Sdk/x86_64/23.08/d987c17e2bd6d281203b8a5dc8654b95d0720a0794a0f8baea24f61d0abc79d8/files/lib/x86_64-linux-gnu/pkgconfig/
+	export CPLUS_INCLUDE_PATH=/usr/include/c++/11
+	export LESSHISTSIZE=0
+	BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING="00" ORPHAN="09" FIFO="06" SOCK="0B" OTHER="06"
+	export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+	export FZF_DEFAULT_COMMAND='find ~/. \( -name .rustup -o -name .git -o -name .npm -o -name no_search -o -name .cargo -o -name yarn -o -name emacs -o -name .m2 -o -name BraveSoftware -o -name thorium -o -name .icons -o -name .cache -o -name .var -o -name .wine -o -name .themes -o -name .surf -o -name .local -o -name .mozilla -o -name walls -o -name wallpapers -o -name GIMP -o -name os-tutorial -o -name costimazation -o -name zsh-autosuggestions -o -name coc -o -name libreoffice -o -name zsh-syntax-highlighting -o -name .zoom -o -name workbench -o -name .virtualBox -o -name content_shell \) -prune -o -print'
+
+	. "$HOME/.cargo/env"
+}
