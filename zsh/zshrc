@@ -1,0 +1,18 @@
+source ~/.config/zsh/functions.zsh
+
+init_env
+init_prompt
+zsh_settings
+init_paths
+init_aliases
+
+if [ "$TERM" = "linux" ]; then
+	tty_colors
+fi
+
+if [ "$TERM" != "linux" ]; then
+	init_vi_mode
+fi
+
+source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.config/zsh/fsh/fast-syntax-highlighting.plugin.zsh
