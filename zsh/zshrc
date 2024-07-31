@@ -1,4 +1,9 @@
+# put this in /etc/zsh/zshenv to set a custom config dir
+# export ZDOTDIR=~/.config/zsh
+
 source ~/.config/zsh/functions.zsh
+
+export NNN_FIFO=/tmp/nnn.fifo
 
 init_env
 init_prompt
@@ -6,9 +11,9 @@ zsh_settings
 init_paths
 init_aliases
 
-if [ "$TERM" = "linux" ]; then
-	tty_colors
-fi
+# if [ "$TERM" = "linux" ]; then
+# 	tty_colors
+# fi
 
 if [ "$TERM" != "linux" ]; then
 	init_vi_mode
