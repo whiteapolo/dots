@@ -18,7 +18,6 @@ function init_aliases() {
 	alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
 	alias l='ls -lha --color=always --group-directories-first'
 	alias ll='ls -lha --color=always --group-directories-first'
-	alias connectgreen='ssh white@192.168.1.233'
 	alias du='du -h'
 	alias startsql='sudo systemctl start mysql'
 	alias stopsql='sudo systemctl stop mysql'
