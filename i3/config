@@ -9,11 +9,15 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# default_border pixel 3
+# default_floating_border pixel 3
+
 set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:IosevkaTermNerdFontMono-Regular 11
+font pango:IosevkaTermNerdFontMono-Regular 13
+# font pango:mono 13
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -21,13 +25,13 @@ font pango:IosevkaTermNerdFontMono-Regular 11
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
+# exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id redshift -l 32.1:34.87 -t 5700:5700 -g 0.8 -m randr -v &
 exec --no-startup-id setxkbmap -layout us,il -variant , grp:lwin_toggle,terminate:ctrl_alt_bksp
 exec --no-startup-id xwallpaper --zoom '/home/white/.config/wall'
 exec --no-startup-id xbindkeys
-exec --no-startup-id xset r rate 200 50
-
+# exec --no-startup-id xset r rate 200 50
+# exec --no-startup-id xset r rate 250 30
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
@@ -61,16 +65,17 @@ bindsym --release $mod+Shift+c kill
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # bindsym $mod+d exec "/home/white/.config/rofi/launchers/type-4/./launcher.sh"
 # bindsym $mod+d exec "dmenu_run --dmenu=-fn IosevkaTermNerdFontMono-Regular:size=13\""
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -fn IosevkaTermNerdFontMono:size=13'
+bindsym $mod+d exec dmenu-desktop -i -fn IosevkaTermNerdFontMono:size=15
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -fn IosevkaTermNerdFontMono:size=15'
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
-# bindsym $mod+k focus down
-# bindsym $mod+l focus up
 bindsym $mod+l focus right
+bindsym $mod+j focus down
+bindsym $mod+k focus up
 
 # alternatively, you can use the cursor keys:
 # bindsym $mod+Left focus left
