@@ -1,9 +1,3 @@
-"       (_)
-" __   ___ _ __ ___  _ __ ___
-" \ \ / / | '_ ` _ \| '__/ __|
-"  \ V /| | | | | | | | | (__
-"   \_/ |_|_| |_| |_|_|  \___|
-
 fun HighlightKeywords()
 	syntax keyword cType bin_tr_t info_t queue_t lll_t vrtx_t
 	syntax keyword cType stk_t trenary_tr_t grp_t Graph avl_tr_t
@@ -17,8 +11,10 @@ fun HighlightKeywords()
 	syntax keyword cType dict_entry_t Stack Array List CList DList Queue
 	syntax keyword cType DictEntry Dict Token TokenType Node NodeType
 	syntax keyword cType stack map mapEntry list string Map String
-	syntax keyword cType avlNode strStack strView Regex queue Logo
+	syntax keyword cType avlNode strStack strView Regex queue Logo Result PipeMode
+	syntax keyword cType heap graph priorityQueue Scanner strSlice sizedPriorityQueue
 	syntax keyword cStatement FOR_RANGE FOR FOR2
+	syntax keyword cConstant Err Ok Read Write
 endfun
 
 fun InitCoc()
@@ -55,35 +51,35 @@ fun SetTab(amt)
 endfun
 
 fun InitSettings()
-	set ignorecase
 	syntax on
-	set splitbelow splitright
+	set ignorecase
 	filetype plugin on
 	filetype plugin indent on
 	set wildmode=list:longest,list:full
-	" set noshowmode
 	set suffixes^=/
 	set mouse=a
-	set so=4
+	set so=5
 	set ruler
-	set laststatus=2
 	set nowrap
-	set statusline=\ %F%m%r%h\ %w
 	set clipboard+=unnamedplus
-	let g:netrw_banner=0
+	set laststatus=0
 	command! -nargs=0 Wq wq
 	command! -nargs=0 W write
 	command! -nargs=0 WQ wq
 	command! -nargs=0 Q q
 
-	" mouse scrolling multiplayer
-	" set mousescroll=ver:2
+	" cursor to block
+	" set guicursor=n-v-c:block
+
+	" disable highlight of matching paren
+	let g:loaded_matchparen=1
 
 	" init current dir
-	autocmd BufEnter ?* silent! :lcd%:p:h
+	" autocmd BufEnter ?* silent! :lcd%:p:h
 
 	" remove trailing spaces
 	autocmd BufWritePre * :%s/\s\+$//e
+	" autocmd BufEnter ?* set noautochdir
 
 	" Highlight keywords
 	au BufNewFile,BufRead ?* call HighlightKeywords()
@@ -96,13 +92,9 @@ fun InitSettings()
 endfun
 
 fun InitKeymap()
-	" Scrolling...
-	" nnoremap <A-j> 2<C-d>zz
-	" nnoremap <A-k> 2<C-u>zz
-	nnoremap <c-j> 5<C-d>zz
-	nnoremap <c-k> 5<C-u>zz
-	nnoremap <PageDown> <C-d>zz
-	nnoremap <PageUp> <C-u>zz
+	" scrolling
+	nnoremap <PageDown> 5jzz
+	nnoremap <PageUp> 5kzz
 
 	" switching between buffers tabs
 	nnoremap <S-TAB> :bn<CR>
@@ -114,10 +106,7 @@ fun InitKeymap()
 	vnoremap S :s//g<Left><Left>
 
 	" Clear all highlights after search
-	nnoremap <ESC> :noh<CR><C-l><CR>
-
-	" Toggle relative number
-	nnoremap <space>r :call ToggleRelativeNumbers()<CR>
+	nnoremap <ESC> :noh<CR><C-l>
 
 	" resizing tabs
 	nnoremap <A-Left> :vertical resize +3<CR>
@@ -138,8 +127,18 @@ fun InitKeymap()
 	" window operation
 	nnoremap <TAB>  <C-w>
 
-	nnoremap <space>f :Ex<CR>
-	nnoremap <space><space> :bd<CR>
+	" file explorer
+	" nnoremap <space>f :Ex<CR>
+	nnoremap <space>f :Telescope find_files<CR>
+	" nnoremap <space>f :Telescope file_browser<CR>
+	" move text in visual
+	vnoremap J :m '>+1<CR>gv=gv
+	vnoremap K :m '<-2<CR>gv=gv
+	" cursor stayed with J
+	nnoremap J mzJ`z
+
+	nnoremap n nzzzv
+	nnoremap N Nzzzv
 endfun
 
 fun AutoSaveFolds()
@@ -151,7 +150,7 @@ fun AutoSaveFolds()
 endfun
 
 fun InitFolds()
-	call AutoSaveFolds()
+	" call AutoSaveFolds()
 	set foldmethod=syntax
 	set foldcolumn=1
 	set foldnestmax=1
@@ -172,47 +171,20 @@ fun HideNumbers()
 	set norelativenumber
 endfun
 
-fun LukeColors()
-	colorscheme vim
-	set background=light
-	set notermguicolors
-	set laststatus=0
-	" hi CocMenuSel ctermbg=12 ctermfg=235
-	hi CocMenuSel ctermbg=7 ctermfg=235
-	hi CocSearch ctermfg=7
-	hi CocFloating ctermbg=235
-	hi Folded ctermbg=236 ctermfg=7
-	hi Comment ctermfg=7
-	hi FoldColumn ctermfg=238
-	hi foldcolumn ctermbg=0
-	hi Visual ctermbg=7
-	hi StatusLine ctermfg=7
-	hi TabLine cterm=NONE ctermbg=237 ctermfg=15
-endfun
-
-fun DraculaColors()
-	set termguicolors
-	colorscheme dracula
-endfun
-
-fun EnableTreeSitter()
-	" call AutoSaveFolds()
-	autocmd VimEnter ?* TSEnable highlight
-	set foldlevel=20
-	set foldmethod=expr
-	set foldexpr=nvim_treesitter#foldexpr()
-	set foldnestmax=1
-	lua vim.opt.foldtext = ""
-endfun
-
 fun DisableCocDiagnostics()
+	" disable coc diagnostics
 	au BufNewFile,BufRead ?* let b:coc_diagnostic_disable=1
-	"""
 endfun
 
-fun DisableCoc()
+fun DisableCocOnStartup()
+	"" disable coc
 	let g:coc_start_at_startup=0
-	"""
+endfun
+
+fun InitColorScheme()
+	set background=dark
+	colorscheme gruvbox
+	hi Normal guibg=#232323
 endfun
 
 fun InitPlugins()
@@ -223,27 +195,32 @@ fun InitPlugins()
 	Plug 'tpope/vim-commentary'
 	Plug 'bfrg/vim-cpp-modern'
 	Plug 'whiteapolo/mygruvbox'
-	Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-	Plug 'rose-pine/neovim'
-	Plug 'jnurmine/Zenburn'
-	Plug 'dracula/vim'
+	Plug 'nvim-lua/plenary.nvim'
+	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+	Plug 'nvim-telescope/telescope-file-browser.nvim'
+	Plug 'desdic/telescope-rooter.nvim'
 	call plug#end()
 endfun
+
+fun Neovide()
+	set guifont=IosevkaTerm\ Nerd\ Font\ Mono:h18
+endfun
+
 
 fun Init()
 	call InitPlugins()
 	call InitCoc()
 	call InitSettings()
 	call InitKeymap()
-	call HighlightKeywords()
 	call DisableCocDiagnostics()
 	call InitFolds()
 	call SetTab(4)
-	call LukeColors()
-	" call DraculaColors()
 	call ShowRelativeNumbers()
+	call InitColorScheme()
+	call Neovide()
 endfun
 
-" START
 call Init()
-set guicursor=n-v-c:block
+
+let g:netrw_banner = 0
+let g:netrw_winsize = 30
