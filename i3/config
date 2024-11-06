@@ -16,7 +16,8 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:IosevkaTermNerdFontMono-Regular 13
+font pango:IosevkaTermNerdFontMono 13
+# font pango:UbuntuMono 17
 # font pango:mono 13
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -31,7 +32,7 @@ exec --no-startup-id setxkbmap -layout us,il -variant , grp:lwin_toggle,terminat
 exec --no-startup-id xwallpaper --zoom '/home/white/.config/wall'
 exec --no-startup-id xbindkeys
 # exec --no-startup-id xset r rate 200 50
-# exec --no-startup-id xset r rate 250 30
+exec --no-startup-id xset r rate 250 30
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
@@ -54,8 +55,10 @@ set $refresh_i3status killall -SIGUSR1 i3status
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-
+# bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
+# bindsym $mod+Shift+Return exec xfce4-terminal
+bindsym $mod+Shift+Return exec alacritty
+# bindsym $mod+Shift+Return exec st
 # kill focused window
 bindsym --release $mod+Shift+c kill
 
@@ -65,7 +68,9 @@ bindsym --release $mod+Shift+c kill
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # bindsym $mod+d exec "/home/white/.config/rofi/launchers/type-4/./launcher.sh"
 # bindsym $mod+d exec "dmenu_run --dmenu=-fn IosevkaTermNerdFontMono-Regular:size=13\""
-bindsym $mod+d exec dmenu-desktop -i -fn IosevkaTermNerdFontMono:size=15
+# bindsym $mod+d exec dmenu-desktop -i -fn IosevkaTermNerdFontMono:size=15
+bindsym $mod+d exec dmenu-desktop -i -fn IosevkaTermNerdFontMono:size=13
+# bindsym $mod+d exec dmenu-desktop -i -fn UbuntuMono:size=15
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -fn IosevkaTermNerdFontMono:size=15'
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
