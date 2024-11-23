@@ -1,6 +1,8 @@
 # put this in /etc/zsh/zshenv to set a custom config dir
 # export ZDOTDIR=~/.config/zsh
 
+# http://www.gamedev.net/reference/articles/article2131.asp
+
 function init_aliases() {
 	alias lf='lcdf'
 	alias mv='mv -i'
