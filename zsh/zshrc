@@ -2,6 +2,7 @@
 # export ZDOTDIR=~/.config/zsh
 
 # http://www.gamedev.net/reference/articles/article2131.asp
+# https://worrydream.com/LadderOfAbstraction/
 
 function init_aliases() {
 	alias lf='lcdf'
