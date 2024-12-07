@@ -4,7 +4,9 @@
 # http://www.gamedev.net/reference/articles/article2131.asp
 # https://worrydream.com/LadderOfAbstraction/
 
-function init_aliases() {
+function init_aliases()
+{
+	alias camera='mpv --vf=hflip av://v4l2:/dev/video0'
 	alias lf='lcdf'
 	alias mv='mv -i'
 	alias cp='cp'
@@ -21,6 +23,7 @@ function init_aliases() {
 	alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
 	alias l='ls -lha --color=always --group-directories-first'
 	alias ll='ls -lha --color=always --group-directories-first'
+	alias connectgreen='ssh white@192.168.1.233'
 	alias du='du -h'
 	alias startsql='sudo systemctl start mysql'
 	alias stopsql='sudo systemctl stop mysql'
@@ -44,9 +47,13 @@ function init_aliases() {
 	alias trash='gio trash'
 }
 
-function init_zoxide() { eval "$(zoxide init --cmd cd zsh)" }
+function init_zoxide()
+{
+	eval "$(zoxide init --cmd cd zsh)"
+}
 
-function ex() {
+function ex()
+{
 	if [ -f $1 ] ; then
 	case $1 in
 		*.tar.gz)  tar xzf $1   ;;
@@ -62,7 +69,8 @@ function ex() {
 	fi
 }
 
-function tty_colors() {
+function tty_colors()
+{
     echo -en "\e]P0202020" # black
     echo -en "\e]P8cc241d" # darkgrey
     echo -en "\e]P198971a" # darkred
@@ -82,25 +90,27 @@ function tty_colors() {
     clear #for background artifacting
 }
 
-function init_prompt() {
+function init_prompt()
+{
 	# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-    # PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
+    PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
 	# PROMPT="%B%F{green}%n%f%b%B%F{green}@%f%b%B%F{green}%m%f%b:%B%F{blue}%~%f%b$ "
     # PROMPT="%B%F{green}%n%f%b:%B%F{blue}%~%f%b$ "
 	# PROMPT='%B%F{green}{}%f%b %B%F{magenta}%~%f%b '
 	# PROMPT='%B%F{magenta}%~%f%b%B%F{green} %b❯ %f'
 	# PROMPT='%F{magenta}%~%f%F{green} $ %f'
-	PROMPT='%F{magenta}%~%f%F{green} %% %f'
+	# PROMPT='%F{magenta}%~%f%F{green} %% %f'
 }
 
-function init_vi_mode() {
+function init_vi_mode()
+{
 	bindkey -v
 	export KEYTIMEOUT=1
 	bindkey -v '^?' backward-delete-char
 	function zle-keymap-select () {
 		case $KEYMAP in
 			vicmd) set_cursor_block;;
-			viins|main) set_cursor_block;;
+			viins|main) set_cursor_beam;;
 		esac
 	}
 	zle -N zle-keymap-select
@@ -109,15 +119,18 @@ function init_vi_mode() {
 	preexec() { set_cursor_block ;}
 }
 
-function init_paths() {
+function init_paths()
+{
 	add_path ~/archive/.scripts
 	add_path /usr/local/go/bin
 	add_path ~/.cargo/env
 	add_path ~/.cargo/bin
     add_path ~/.local/bin
+	add_path ~/.local/zig-linux-x86_64-0.14.0-dev.2238+1db8cade5
 }
 
-function zsh_settings() {
+function zsh_settings()
+{
 	autoload -U colors && colors
 	autoload -U compinit
 	zstyle ':completion:*' menu select
@@ -127,7 +140,8 @@ function zsh_settings() {
 	compinit
 }
 
-function init_env() {
+function init_env()
+{
 	export EDITOR='nvim'
 	export HISTFILE=~/.config/zsh/zsh_history
 	export HISTSIZE=10000
@@ -138,23 +152,26 @@ function init_env() {
 	BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING="00" ORPHAN="09" FIFO="06" SOCK="0B" OTHER="06"
 	export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
 	export FZF_DEFAULT_COMMAND='find ~/. \( -name .rustup -o -name .git -o -name .npm -o -name no_search -o -name .cargo -o -name yarn -o -name emacs -o -name .m2 -o -name BraveSoftware -o -name thorium -o -name .icons -o -name .cache -o -name .var -o -name .wine -o -name .themes -o -name .surf -o -name .local -o -name .mozilla -o -name walls -o -name wallpapers -o -name GIMP -o -name os-tutorial -o -name costimazation -o -name zsh-autosuggestions -o -name coc -o -name libreoffice -o -name zsh-syntax-highlighting -o -name .zoom -o -name workbench -o -name .virtualBox -o -name content_shell \) -prune -o -print'
-
 	. "$HOME/.cargo/env"
 }
 
-function set_cursor_beam() {
+function set_cursor_beam()
+{
 	echo -ne '\e[5 q'
 }
 
-function set_cursor_block() {
-	echo -ne '\e[1 q'
+function set_cursor_block()
+{
+	echo -ne '\e[2 q'
 }
 
-function add_path() {
+function add_path()
+{
 	path+=$1
 }
 
-function lcdf() {
+function lcdf()
+{
     tmp="$(mktemp)"
     lf -last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
@@ -164,7 +181,8 @@ function lcdf() {
     fi
 }
 
-function fl() {
+function fl()
+{
     # Block nesting of nnn in subshells
     [ "${NNNLVL:-0}" -eq 0 ] || {
         echo "nnn is already running"
@@ -194,8 +212,6 @@ function fl() {
     }
 }
 
-# source ~/.config/zsh/functions.zsh
-
 export NNN_FIFO=/tmp/nnn.fifo
 
 init_env
@@ -204,12 +220,11 @@ zsh_settings
 init_paths
 init_aliases
 
-# if [ "$TERM" = "linux" ]; then
-# 	tty_colors
-# fi
-
 if [ "$TERM" != "linux" ]; then
 	init_vi_mode
+	# bindkey -v
+	# export KEYTIMEOUT=1
+	# set_cursor_block
 fi
 
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
