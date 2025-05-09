@@ -1,11 +1,6 @@
-# put this in /etc/zsh/zshenv to set a custom config dir
-# export ZDOTDIR=~/.config/zsh
-
-# http://www.gamedev.net/reference/articles/article2131.asp
-# https://worrydream.com/LadderOfAbstraction/
-
 function init_aliases()
 {
+	alias hebrew='setxkbmap -layout us,il -variant , grp:lwin_toggle,terminate:ctrl_alt_bksp'
 	alias camera='mpv --vf=hflip av://v4l2:/dev/video0'
 	alias lf='lcdf'
 	alias mv='mv -i'
@@ -45,6 +40,11 @@ function init_aliases()
 	alias toggle-bluetooth='rfkill toggle bluetooth'
 	alias resetxbindkeys='killall -HUP xbindkeys; xbindkeys'
 	alias trash='gio trash'
+}
+
+function compress()
+{
+	tar -czvf "$1" "$2"
 }
 
 function init_zoxide()
@@ -93,13 +93,13 @@ function tty_colors()
 function init_prompt()
 {
 	# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-    PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
+    # PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
 	# PROMPT="%B%F{green}%n%f%b%B%F{green}@%f%b%B%F{green}%m%f%b:%B%F{blue}%~%f%b$ "
     # PROMPT="%B%F{green}%n%f%b:%B%F{blue}%~%f%b$ "
 	# PROMPT='%B%F{green}{}%f%b %B%F{magenta}%~%f%b '
 	# PROMPT='%B%F{magenta}%~%f%b%B%F{green} %b❯ %f'
 	# PROMPT='%F{magenta}%~%f%F{green} $ %f'
-	# PROMPT='%F{magenta}%~%f%F{green} %% %f'
+	PROMPT='%F{magenta}%~%f%F{green} %% %f'
 }
 
 function init_vi_mode()
@@ -110,7 +110,8 @@ function init_vi_mode()
 	function zle-keymap-select () {
 		case $KEYMAP in
 			vicmd) set_cursor_block;;
-			viins|main) set_cursor_beam;;
+			# viins|main) set_cursor_beam;;
+			viins|main) set_cursor_block;;
 		esac
 	}
 	zle -N zle-keymap-select
@@ -127,6 +128,7 @@ function init_paths()
 	add_path ~/.cargo/bin
     add_path ~/.local/bin
 	add_path ~/.local/zig-linux-x86_64-0.14.0-dev.2238+1db8cade5
+	add_path ~/.nimble/bin
 }
 
 function zsh_settings()
