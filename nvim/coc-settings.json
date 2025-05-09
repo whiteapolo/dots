@@ -1,3 +1,10 @@
 {
-  "inlayHint.enable": false
+	"inlayHint.enable": false,
+	"zig": {
+		"command": "zls",
+		"filetypes": [
+			"zig"
+		]
+	},
+	"rust-analyzer.updates.checkOnStartup": false
 }

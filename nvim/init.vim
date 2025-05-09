@@ -1,24 +1,5 @@
-fun HighlightKeywords()
-	syntax keyword cType bin_tr_t info_t queue_t lll_t vrtx_t
-	syntax keyword cType stk_t trenary_tr_t grp_t Graph avl_tr_t
-	syntax keyword cType general_tr_t clll_t dc_list_t dlist_t
-	syntax keyword cType uchar ushort uint u64 u32 u16 u8 i64 i32 i16 i8
-	syntax keyword cType Bitboard Player BoardType Vector2 Tile Board
-	syntax keyword cType StringBuffer StringBuilder FenBuilder Move
-	syntax keyword cType Color Trie Line Dict Glypn Cmd Sbuilder Sbuffer
-	syntax keyword cType HistoryEntry DynamicArray Vertex dict_t token_t
-	syntax keyword cType sbuffer_t sbuilder_t graph_t vertex_t array_t
-	syntax keyword cType dict_entry_t Stack Array List CList DList Queue
-	syntax keyword cType DictEntry Dict Token TokenType Node NodeType
-	syntax keyword cType stack map mapEntry list string Map String
-	syntax keyword cType avlNode strStack strView Regex queue Logo Result PipeMode
-	syntax keyword cType heap graph priorityQueue Scanner strSlice sizedPriorityQueue
-	syntax keyword cStatement FOR_RANGE FOR FOR2
-	syntax keyword cConstant Err Ok Read Write
-endfun
-
 fun InitCoc()
-	let g:coc_node_path = '/usr/local/bin/node'
+	" let g:coc_node_path = '/usr/local/bin/node'
 
 	inoremap <silent><expr> <TAB>
 				\ coc#pum#visible() ? coc#pum#next(1) :
@@ -42,6 +23,8 @@ fun InitCoc()
 		let col = col('.') - 1
 		return !col || getline('.')[col - 1]  =~ '\s'
 	endfun
+
+	autocmd User CocIdle autocmd BufEnter *.rs silent! CocCommand rust-analyzer.clearFlycheck
 endfun
 
 fun SetTab(amt)
@@ -69,20 +52,17 @@ fun InitSettings()
 	command! -nargs=0 Q q
 
 	" cursor to block
-	" set guicursor=n-v-c:block
+	set guicursor=n-v-c:block
 
 	" disable highlight of matching paren
 	let g:loaded_matchparen=1
 
 	" init current dir
-	" autocmd BufEnter ?* silent! :lcd%:p:h
+	autocmd BufEnter ?* silent! :lcd%:p:h
 
 	" remove trailing spaces
 	autocmd BufWritePre * :%s/\s\+$//e
 	" autocmd BufEnter ?* set noautochdir
-
-	" Highlight keywords
-	au BufNewFile,BufRead ?* call HighlightKeywords()
 
 	" syntax highliting to st.conf
 	autocmd BufEnter st.conf silent! :set filetype=kitty.conf
@@ -98,8 +78,9 @@ fun InitKeymap()
 
 	" switching between buffers tabs
 	nnoremap <S-TAB> :bn<CR>
-	nnoremap <C-TAB> :bp<CR>
-	nnoremap <C-w> :bd<CR>
+	" nnoremap <C-TAB> :bp<CR>
+	" nnoremap <C-w> :bd<CR>
+	nnoremap <space>k :bd<CR>
 
 	" Replace all aliases to S.
 	nnoremap S :%s//g<Left><Left>
@@ -125,28 +106,48 @@ fun InitKeymap()
 	nnoremap G G0
 
 	" window operation
-	nnoremap <TAB>  <C-w>
+	" nnoremap <TAB>  <C-w>
 
 	" file explorer
 	" nnoremap <space>f :Ex<CR>
-	nnoremap <space>f :Telescope find_files<CR>
+	" nnoremap <space>f :Telescope find_files<CR>
+	nnoremap <space>f :Ex<CR>
+	nnoremap <space>r :Rexplore<CR>
 	" nnoremap <space>f :Telescope file_browser<CR>
+
 	" move text in visual
 	vnoremap J :m '>+1<CR>gv=gv
 	vnoremap K :m '<-2<CR>gv=gv
+
 	" cursor stayed with J
 	nnoremap J mzJ`z
 
 	nnoremap n nzzzv
 	nnoremap N Nzzzv
+
+	let g:compile_command = "./build.sh"
+	let g:run_command = "./exe &"
+
+	nnoremap <space><enter> :!
+	nnoremap <space>c :let g:compile_command=""<left>
+	nnoremap <space>r :let g:run_command=""<left>
+	nnoremap <A-r> :execute '!' . g:run_command<CR>
+	nnoremap <A-c> :cexpr system(g:compile_command)<CR>:copen<CR>
+	nnoremap <A-m> :execute '!' . g:compile_command . " && " . g:run_command<CR>
+
+	nnoremap <C-]> :cnext<CR>
+	nnoremap <C-[> :cprev<CR>
+
 endfun
 
 fun AutoSaveFolds()
+	let saved_cwd = getcwd()
 	augroup remember_folds
 		autocmd!
 		autocmd BufWinLeave ?* mkview
 		autocmd BufWinEnter ?* silent! loadview
 	augroup END
+    execute 'cd' saved_cwd
 endfun
 
 fun InitFolds()
@@ -182,9 +183,10 @@ fun DisableCocOnStartup()
 endfun
 
 fun InitColorScheme()
-	set background=dark
-	colorscheme gruvbox
-	hi Normal guibg=#232323
+	" set background=dark
+	" colorscheme gruvbox
+	" hi Normal guibg=#212121
+	colorscheme gruber-darker
 endfun
 
 fun InitPlugins()
@@ -199,6 +201,8 @@ fun InitPlugins()
 	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 	Plug 'nvim-telescope/telescope-file-browser.nvim'
 	Plug 'desdic/telescope-rooter.nvim'
+	Plug 'blazkowolf/gruber-darker.nvim'
+	Plug 'jnurmine/Zenburn'
 	call plug#end()
 endfun
 
@@ -213,7 +217,7 @@ fun Init()
 	call InitSettings()
 	call InitKeymap()
 	call DisableCocDiagnostics()
-	call InitFolds()
+	" call InitFolds()
 	call SetTab(4)
 	call ShowRelativeNumbers()
 	call InitColorScheme()
@@ -222,5 +226,5 @@ endfun
 
 call Init()
 
-let g:netrw_banner = 0
-let g:netrw_winsize = 30
+" let g:netrw_banner = 0
+" let g:netrw_winsize = 30
