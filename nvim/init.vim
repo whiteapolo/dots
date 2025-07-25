@@ -1,6 +1,4 @@
 fun InitCoc()
-	" let g:coc_node_path = '/usr/local/bin/node'
-
 	inoremap <silent><expr> <TAB>
 				\ coc#pum#visible() ? coc#pum#next(1) :
 				\ CheckBackspace() ? "\<Tab>" :
@@ -52,23 +50,25 @@ fun InitSettings()
 	command! -nargs=0 Q q
 
 	" cursor to block
-	set guicursor=n-v-c:block
+	" set guicursor=n-v-c:block
 
 	" disable highlight of matching paren
 	let g:loaded_matchparen=1
 
 	" init current dir
-	autocmd BufEnter ?* silent! :lcd%:p:h
+	" autocmd BufEnter ?* silent! :lcd%:p:h
 
 	" remove trailing spaces
 	autocmd BufWritePre * :%s/\s\+$//e
-	" autocmd BufEnter ?* set noautochdir
+	autocmd BufEnter ?* set noautochdir
 
 	" syntax highliting to st.conf
 	autocmd BufEnter st.conf silent! :set filetype=kitty.conf
 
 	" syntax highliting to mysh files
 	au BufRead,BufNewFile ?*.mysh set filetype=mysh
+
+	set expandtab
 endfun
 
 fun InitKeymap()
@@ -85,6 +85,8 @@ fun InitKeymap()
 	" Replace all aliases to S.
 	nnoremap S :%s//g<Left><Left>
 	vnoremap S :s//g<Left><Left>
+    " xnoremap S "zy:%s/<C-r>z//g<Left><Left>
+
 
 	" Clear all highlights after search
 	nnoremap <ESC> :noh<CR><C-l>
@@ -110,8 +112,8 @@ fun InitKeymap()
 
 	" file explorer
 	" nnoremap <space>f :Ex<CR>
-	" nnoremap <space>f :Telescope find_files<CR>
-	nnoremap <space>f :Ex<CR>
+	nnoremap <space>f :Telescope find_files<CR>
+	" nnoremap <space>f :Ex<CR>
 	nnoremap <space>r :Rexplore<CR>
 	" nnoremap <space>f :Telescope file_browser<CR>
 
@@ -135,8 +137,8 @@ fun InitKeymap()
 	nnoremap <A-c> :cexpr system(g:compile_command)<CR>:copen<CR>
 	nnoremap <A-m> :execute '!' . g:compile_command . " && " . g:run_command<CR>
 
-	nnoremap <C-]> :cnext<CR>
-	nnoremap <C-[> :cprev<CR>
+	" nnoremap <C-]> :cnext<CR>
+	" nnoremap <C-[> :cprev<CR>
 
 endfun
 
@@ -184,9 +186,9 @@ endfun
 
 fun InitColorScheme()
 	" set background=dark
-	" colorscheme gruvbox
-	" hi Normal guibg=#212121
-	colorscheme gruber-darker
+	colorscheme gruvbox
+	hi Normal guibg=#212121
+	" colorscheme gruber-darker
 endfun
 
 fun InitPlugins()
@@ -202,7 +204,8 @@ fun InitPlugins()
 	Plug 'nvim-telescope/telescope-file-browser.nvim'
 	Plug 'desdic/telescope-rooter.nvim'
 	Plug 'blazkowolf/gruber-darker.nvim'
-	Plug 'jnurmine/Zenburn'
+    Plug 'powerline/powerline'
+    Plug 'stevearc/conform.nvim'
 	call plug#end()
 endfun
 
@@ -225,6 +228,7 @@ fun Init()
 endfun
 
 call Init()
+" hi LineNr guibg=#282828
 
 " let g:netrw_banner = 0
 " let g:netrw_winsize = 30
