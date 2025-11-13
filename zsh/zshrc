@@ -1,233 +1,184 @@
-function init_aliases()
-{
-	alias hebrew='setxkbmap -layout us,il -variant , grp:lwin_toggle,terminate:ctrl_alt_bksp'
-	alias camera='mpv --vf=hflip av://v4l2:/dev/video0'
-	alias lf='lcdf'
-	alias mv='mv -i'
-	alias cp='cp'
-	alias rm='rm -i'
-	alias ln='ln -i'
-	alias vim='nvim'
-	alias ls='ls --color=always --group-directories-first -v'
-	alias grep='grep --color=always'
-	alias vimrc='cd ~/.config/nvim/'
-	alias kittyrc='nvim .config/kitty/kitty.conf'
-	alias tmux='tmux -u'
-	alias swap='cd ~/.local/state/nvim/swap'
-	alias ..='cd ..'
-	alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
-	alias l='ls -lha --color=always --group-directories-first'
-	alias ll='ls -lha --color=always --group-directories-first'
-	alias connectgreen='ssh white@192.168.1.233'
-	alias du='du -h'
-	alias startsql='sudo systemctl start mysql'
-	alias stopsql='sudo systemctl stop mysql'
-	alias statussql='systemctl status mysql'
-	alias se='grep -rIn'
-	alias fk='fg'
-	alias batcat='batcat --theme=base16'
-	alias zshrc='cd ~/.config/zsh'
-	alias mpad='mousepad'
-	alias less='less -r'
-	alias v='nvim'
-	alias bk='setsid'
-	alias diff='colordiff'
-	alias m='./build.sh'
-	alias e='./exe'
-	alias me='m && e'
-	alias pwd='pwd-can'
-	# alias fl='nnn -de'
-	alias toggle-bluetooth='rfkill toggle bluetooth'
-	alias resetxbindkeys='killall -HUP xbindkeys; xbindkeys'
-	alias trash='gio trash'
+init_aliases() {
+  alias hebrew='setxkbmap -layout us,il -variant , grp:lwin_toggle,terminate:ctrl_alt_bksp'
+  alias camera='mpv --vf=hflip av://v4l2:/dev/video0'
+  alias lf='lcdf'
+  alias mv='mv -i'
+  alias rm='rm -i'
+  alias ln='ln -i'
+  alias v='nvim'
+  alias ls='ls --color=always --group-directories-first -v'
+  alias grep='grep --color=always'
+  alias vimrc='cd ~/.config/nvim/'
+  alias vim-swap='cd ~/.local/state/nvim/swap'
+  alias ..='cd ..'
+  alias cal='cal | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"'
+  alias ll='ls -lha --color=always --group-directories-first'
+  alias connectgreen='ssh white@192.168.1.233'
+  alias du='du -h'
+  alias se='grep -rIn'
+  alias zshrc='cd ~/.config/zsh'
+  alias less='less -r'
+  alias v='nvim'
+  alias diff='colordiff'
+  alias m='./build'
+  alias e='./exe'
+  alias me='m && e'
+  alias toggle-bluetooth='rfkill toggle bluetooth'
+  alias trash='gio trash'
 }
 
-function compress()
-{
-	tar -czvf "$1" "$2"
+compress() {
+  tar -czvf "$1" "$2"
 }
 
-function init_zoxide()
-{
-	eval "$(zoxide init --cmd cd zsh)"
+extract() {
+  if [ -f $1 ]
+  then
+    case $1 in
+      *.tar.gz)  tar xzf $1   ;;
+      *.rar)     unrar x $1   ;;
+      *.gz)      gunzup $1    ;;
+      *.tar)     tar xf $1    ;;
+      *.zip)     unzip $1     ;;
+      *.tar.xz)  tar xf $1    ;;
+      *)   echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is no a valid file"
+  fi
 }
 
-function ex()
-{
-	if [ -f $1 ] ; then
-	case $1 in
-		*.tar.gz)  tar xzf $1   ;;
-		*.rar)     unrar x $1   ;;
-		*.gz)      gunzup $1    ;;
-		*.tar)     tar xf $1    ;;
-		*.zip)     unzip $1     ;;
-		*.tar.xz)  tar xf $1    ;;
-		*)   echo "'$1' cannot be extracted via ex()" ;;
-		esac
-	else
-	echo "'$1' is no a valid file"
-	fi
+init_prompt() {
+  autoload -Uz vcs_info
+  zstyle ':vcs_info:*' enable git svn
+  zstyle ':vcs_info:git*' formats "(%b) "
+
+  precmd() {
+    vcs_info
+  }
+
+  setopt prompt_subst
+  # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+  # PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
+  # PROMPT="%B%F{green}%n%f%b%B%F{green}@%f%b%B%F{green}%m%f%b:%B%F{blue}%~%f%b$ "
+  # PROMPT="%B%F{green}%n%f%b:%B%F{blue}%~%f%b$ "
+  # PROMPT='%B%F{green}{}%f%b %B%F{magenta}%~%f%b '
+  # PROMPT='%B%F{magenta}%~%f%b%B%F{green} %b❯ %f'
+  # PROMPT='%F{magenta}%~%f%F{green} $ %f'
+  # PROMPT='%F{magenta}%~%f%F{green} %% %f'
+  PROMPT='%F{magenta}%~%f%F{green} ${vcs_info_msg_0_}%% %f'
 }
 
-function tty_colors()
-{
-    echo -en "\e]P0202020" # black
-    echo -en "\e]P8cc241d" # darkgrey
-    echo -en "\e]P198971a" # darkred
-    echo -en "\e]P9db930d" # red
-    echo -en "\e]P48787AF" # darkblue
-    echo -en "\e]PC7373C9" # blue
-    echo -en "\e]P287AF5F" # darkgreen
-    echo -en "\e]PA98E34D" # green
-    echo -en "\e]P5BD53A5" # darkmagenta
-    echo -en "\e]PDD633B2" # magenta
-    echo -en "\e]P65FAFAF" # darkcyan
-    echo -en "\e]PE44C9C9" # cyan
-    echo -en "\e]P3D7AF87" # brown
-    echo -en "\e]PBFFD75F" # yellow
-    echo -en "\e]P7E5E5E5" # lightgrey
-    echo -en "\e]PFFFFFFF" # white
-    clear #for background artifacting
+init_vi_mode() {
+  bindkey -v
+  export KEYTIMEOUT=1
+  bindkey -v '^?' backward-delete-char
+
+  zle-keymap-select () {
+    case $KEYMAP in
+      vicmd) set_cursor_block;;
+      viins|main) set_cursor_beam;;
+    esac
+  }
+
+  zle -N zle-keymap-select
+
+  zle-line-init() {
+    zle -K viins
+  }
+
+  preexec() {
+    set_cursor_block
+  }
+
+  zle -N zle-line-init
 }
 
-function init_prompt()
-{
-	# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-    # PROMPT="%B%F{red}[%f%b%B%F{yellow}%n%f%b%B%F{green}@%f%b%B%F{blue}%M%f%b %B%F{magenta}%~%f%b%B%F{red}]%f%b$ "
-	# PROMPT="%B%F{green}%n%f%b%B%F{green}@%f%b%B%F{green}%m%f%b:%B%F{blue}%~%f%b$ "
-    # PROMPT="%B%F{green}%n%f%b:%B%F{blue}%~%f%b$ "
-	# PROMPT='%B%F{green}{}%f%b %B%F{magenta}%~%f%b '
-	# PROMPT='%B%F{magenta}%~%f%b%B%F{green} %b❯ %f'
-	# PROMPT='%F{magenta}%~%f%F{green} $ %f'
-	PROMPT='%F{magenta}%~%f%F{green} %% %f'
+init_paths() {
+  add_path ~/archive/.scripts
+  add_path /usr/local/go/bin
+  add_path ~/.cargo/env
+  add_path ~/.cargo/bin
+  add_path ~/.local/bin
+  add_path ~/.local/zig-linux-x86_64-0.14.0-dev.2238+1db8cade5
+  add_path ~/.nimble/bin
 }
 
-function init_vi_mode()
-{
-	bindkey -v
-	export KEYTIMEOUT=1
-	bindkey -v '^?' backward-delete-char
-	function zle-keymap-select () {
-		case $KEYMAP in
-			vicmd) set_cursor_block;;
-			# viins|main) set_cursor_beam;;
-			viins|main) set_cursor_block;;
-		esac
-	}
-	zle -N zle-keymap-select
-	zle-line-init() { zle -K viins }
-	zle -N zle-line-init
-	preexec() { set_cursor_block ;}
+zsh_settings() {
+  autoload -U colors && colors
+  autoload -U compinit
+  zstyle ':completion:*' menu select
+  setopt appendhistory
+  setopt autocd
+  zmodload zsh/complist
+  compinit
 }
 
-function init_paths()
-{
-	add_path ~/archive/.scripts
-	add_path /usr/local/go/bin
-	add_path ~/.cargo/env
-	add_path ~/.cargo/bin
-    add_path ~/.local/bin
-	add_path ~/.local/zig-linux-x86_64-0.14.0-dev.2238+1db8cade5
-	add_path ~/.nimble/bin
+init_env() {
+  export EDITOR='nvim'
+  export HISTFILE=~/.config/zsh/zsh_history
+  export HISTSIZE=10000
+  export SAVEHIST=10000
+  export PKG_CONFIG_PATH=/var/lib/flatpak/runtime/org.freedesktop.Sdk/x86_64/23.08/d987c17e2bd6d281203b8a5dc8654b95d0720a0794a0f8baea24f61d0abc79d8/files/lib/x86_64-linux-gnu/pkgconfig/
+  export CPLUS_INCLUDE_PATH=/usr/include/c++/11
+  export LESSHISTSIZE=0
+  BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING="00" ORPHAN="09" FIFO="06" SOCK="0B" OTHER="06"
+  export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+  export FZF_DEFAULT_COMMAND='find ~/. \( -name .rustup -o -name .git -o -name .npm -o -name no_search -o -name .cargo -o -name yarn -o -name emacs -o -name .m2 -o -name BraveSoftware -o -name thorium -o -name .icons -o -name .cache -o -name .var -o -name .wine -o -name .themes -o -name .surf -o -name .local -o -name .mozilla -o -name walls -o -name wallpapers -o -name GIMP -o -name os-tutorial -o -name costimazation -o -name zsh-autosuggestions -o -name coc -o -name libreoffice -o -name zsh-syntax-highlighting -o -name .zoom -o -name workbench -o -name .virtualBox -o -name content_shell \) -prune -o -print'
+  . "$HOME/.cargo/env"
 }
 
-function zsh_settings()
-{
-	autoload -U colors && colors
-	autoload -U compinit
-	zstyle ':completion:*' menu select
-	setopt appendhistory
-	setopt autocd
-	zmodload zsh/complist
-	compinit
+set_cursor_beam() {
+  echo -ne '\e[5 q'
 }
 
-function init_env()
-{
-	export EDITOR='nvim'
-	export HISTFILE=~/.config/zsh/zsh_history
-	export HISTSIZE=10000
-	export SAVEHIST=10000
-	export PKG_CONFIG_PATH=/var/lib/flatpak/runtime/org.freedesktop.Sdk/x86_64/23.08/d987c17e2bd6d281203b8a5dc8654b95d0720a0794a0f8baea24f61d0abc79d8/files/lib/x86_64-linux-gnu/pkgconfig/
-	export CPLUS_INCLUDE_PATH=/usr/include/c++/11
-	export LESSHISTSIZE=0
-	BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING="00" ORPHAN="09" FIFO="06" SOCK="0B" OTHER="06"
-	export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
-	export FZF_DEFAULT_COMMAND='find ~/. \( -name .rustup -o -name .git -o -name .npm -o -name no_search -o -name .cargo -o -name yarn -o -name emacs -o -name .m2 -o -name BraveSoftware -o -name thorium -o -name .icons -o -name .cache -o -name .var -o -name .wine -o -name .themes -o -name .surf -o -name .local -o -name .mozilla -o -name walls -o -name wallpapers -o -name GIMP -o -name os-tutorial -o -name costimazation -o -name zsh-autosuggestions -o -name coc -o -name libreoffice -o -name zsh-syntax-highlighting -o -name .zoom -o -name workbench -o -name .virtualBox -o -name content_shell \) -prune -o -print'
-	. "$HOME/.cargo/env"
+set_cursor_block() {
+  echo -ne '\e[2 q'
 }
 
-function set_cursor_beam()
-{
-	echo -ne '\e[5 q'
+add_path() {
+  path+="$1"
 }
 
-function set_cursor_block()
-{
-	echo -ne '\e[2 q'
+lcdf() {
+  tmp="$(mktemp)"
+  lf -last-dir-path="$tmp" "$@"
+  if [ -f "$tmp" ]; then
+    dir="$(cat "$tmp")"
+    rm -f "$tmp"
+    [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+  fi
 }
 
-function add_path()
-{
-	path+=$1
+blue_filter() {
+  temperature="${1:-2600}"
+  redshift -l 32.1:34.87 -t "$temperature:$temperature" -g 0.8 -m randr -v &
 }
 
-function lcdf()
-{
-    tmp="$(mktemp)"
-    lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-    fi
-}
+fl() {
+  [ "${NNNLVL:-0}" -eq 0 ] || {
+    echo "nnn is already running"
+      return
+  }
 
-function fl()
-{
-    # Block nesting of nnn in subshells
-    [ "${NNNLVL:-0}" -eq 0 ] || {
-        echo "nnn is already running"
-        return
+  export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+  nnn -de "$@"
+
+  [ ! -f "$NNN_TMPFILE" ] || {
+    . "$NNN_TMPFILE"
+      rm -f -- "$NNN_TMPFILE" > /dev/null
     }
 
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
-    # see. To cd on quit only on ^G, remove the "export" and make sure not to
-    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
-    #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    # The command builtin allows one to alias nnn to n, if desired, without
-    # making an infinitely recursive alias
-    command nnn -de "$@"
-
-    [ ! -f "$NNN_TMPFILE" ] || {
-        . "$NNN_TMPFILE"
-        rm -f -- "$NNN_TMPFILE" > /dev/null
-    }
+  export NNN_FIFO=/tmp/nnn.fifo
 }
-
-export NNN_FIFO=/tmp/nnn.fifo
 
 init_env
 init_prompt
 zsh_settings
 init_paths
 init_aliases
-
-if [ "$TERM" != "linux" ]; then
-	init_vi_mode
-	# bindkey -v
-	# export KEYTIMEOUT=1
-	# set_cursor_block
-fi
+init_vi_mode
 
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/fsh/fast-syntax-highlighting.plugin.zsh
