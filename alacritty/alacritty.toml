@@ -127,7 +127,12 @@ white   = '#ebdbb2'
 # index = 17
 # color = "#cb7985"
 
+# [[keyboard.bindings]]
+# key = "Return"
+# mods = "Shift"
+# chars = "\u001B\r"
+
 [[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001B\r"
+key = "N"
+mods = "Control"
+action = "CreateNewWindow"
