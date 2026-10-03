@@ -5,7 +5,7 @@
 	"modules-center": ["hyprland/window"],
 	"modules-right": ["tray", "battery", "clock"],
 	"hyprland/window": {
-		"tooltip": false
+        "max-length": 80
 	},
 	"battery": {
 		"states": {
